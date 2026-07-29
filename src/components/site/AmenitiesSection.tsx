@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Reveal } from "./Reveal";
-import guideAsset from "../../assets/tourguide.jpg";
+import guideAsset from "../../assets/gg.jpg";
 
 import g1Asset from "../../assets/g1.png";
 import g2Asset from "../../assets/g2.png";
