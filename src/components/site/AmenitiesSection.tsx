@@ -64,7 +64,10 @@ export function AmenitiesSection() {
   return (
     <section className="px-6 py-16 md:px-12 md:py-24 max-w-7xl mx-auto">
       <Reveal>
-        <h2 data-reveal className="font-sans text-[clamp(28px,3.8vw,48px)] font-bold tracking-tight mb-10 text-slate-900">
+        <h2
+          data-reveal
+          className="font-sans text-[clamp(28px,3.8vw,48px)] font-bold tracking-tight mb-10 text-slate-900"
+        >
           Amenities For Travellers
         </h2>
       </Reveal>

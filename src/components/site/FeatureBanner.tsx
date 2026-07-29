@@ -73,5 +73,3 @@ export function FeatureBanner() {
     </section>
   );
 }
-
-

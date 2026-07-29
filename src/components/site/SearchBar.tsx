@@ -13,13 +13,7 @@ const DESTINATIONS = [
   "Banaras, India",
 ];
 
-const DATES = [
-  "This weekend",
-  "Next week",
-  "3 Days 2 Nights",
-  "6 Days 5 Nights",
-  "Flexible dates",
-];
+const DATES = ["This weekend", "Next week", "3 Days 2 Nights", "6 Days 5 Nights", "Flexible dates"];
 
 const PEOPLE = ["1 Traveller", "2 Travellers", "3 Travellers", "4 Travellers", "5+ Travellers"];
 
@@ -62,9 +56,7 @@ function Field({
         aria-haspopup="listbox"
         className="group w-full rounded-full px-6 py-3.5 text-left transition-colors hover:bg-secondary"
       >
-        <span className="block text-[11px] font-medium tracking-wide text-foreground">
-          {label}
-        </span>
+        <span className="block text-[11px] font-medium tracking-wide text-foreground">{label}</span>
         <span
           className={`block truncate text-[13px] ${
             value ? "text-foreground" : "text-muted-foreground"
@@ -174,7 +166,13 @@ export function SearchBar() {
           aria-label="Search trips"
           className="ml-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ink text-ink-foreground transition-transform duration-200 hover:scale-105"
         >
-          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2">
+          <svg
+            viewBox="0 0 24 24"
+            className="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+          >
             <circle cx="11" cy="11" r="7" />
             <path d="m20 20-3.2-3.2" strokeLinecap="round" />
           </svg>

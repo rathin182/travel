@@ -165,7 +165,6 @@
   font-family: var(--font-krona);
 }
 
-
 /* Highlight swipe under nav active item / words */
 @utility marker-underline {
   background-image: linear-gradient(

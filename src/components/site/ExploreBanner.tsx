@@ -8,7 +8,10 @@ export function ExploreBanner() {
   return (
     <section className="px-6 py-12 md:px-12">
       <Reveal>
-        <div data-reveal className="relative overflow-hidden rounded-[28px] bg-black p-8 sm:p-12 md:p-14 text-white shadow-2xl">
+        <div
+          data-reveal
+          className="relative overflow-hidden rounded-[28px] bg-black p-8 sm:p-12 md:p-14 text-white shadow-2xl"
+        >
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12">
             {/* Left Column: 2x2 Photo Grid */}
             <div className="lg:col-span-5">

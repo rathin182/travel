@@ -56,7 +56,7 @@ function Card({ c }: { c: PlaceCard }) {
           className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
           loading="lazy"
         />
-        
+
         {/* Top Right Tags using Krona One font */}
         <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
           {c.tags.map((t) => (
@@ -82,22 +82,22 @@ function Card({ c }: { c: PlaceCard }) {
         <h3 className="font-sans text-[15px] sm:text-[17px] leading-snug font-bold text-slate-900 tracking-tight">
           {c.title}
         </h3>
-        
+
         <p className="font-sans mt-3 text-[13px] sm:text-[14px] font-medium text-slate-400">
           {c.duration}
         </p>
 
         <div className="mt-3 flex items-center justify-between">
-          <p className="font-sans text-[18px] sm:text-[20px] font-bold text-slate-900">
-            {c.price}
-          </p>
-          
+          <p className="font-sans text-[18px] sm:text-[20px] font-bold text-slate-900">{c.price}</p>
+
           <button
             type="button"
             className="font-sans flex items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[12px] sm:text-[13px] font-medium text-white transition-all duration-200 hover:bg-neutral-800"
           >
             Know More
-            <span aria-hidden="true" className="text-sm">→</span>
+            <span aria-hidden="true" className="text-sm">
+              →
+            </span>
           </button>
         </div>
       </div>

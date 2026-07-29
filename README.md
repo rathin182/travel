@@ -1,7 +1,7 @@
 # Journey Weaver
 
 I have uploaded a design.pdf file this is the design of website I want you to create same to same like the pdf provided.
-Instructions on how to create - 
+Instructions on how to create -
 in slide 1 There should be animation of reveal then when user will scroll the background will move horizontally along with moving bike the wheels of bike should rotate it should give the feel of bike is travelling across the page from page 1 to page 4 there should be horizontal scrolling. In page 2 you can see "Explore the destination" is written when bike passes that like it should get transformed into "choose a
 new experience." with morphing animation and everything should be interactive and after that you can see the cards of places create them as it is. Rest design is vertical scrolling with animations use GSAP for animations and everything should feel smooth use lenis for scrolling.
 and the selector menu in hero section that should also work in this and the dropdown should work

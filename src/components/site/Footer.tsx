@@ -16,36 +16,66 @@ export function Footer() {
 
             {/* Column 2: Explore */}
             <div className="lg:col-span-3">
-              <h3 className="text-base font-bold text-slate-900 font-sans mb-4">
-                Explore
-              </h3>
+              <h3 className="text-base font-bold text-slate-900 font-sans mb-4">Explore</h3>
               <ul className="space-y-3 text-sm text-slate-500 font-sans">
-                <li><a href="#" className="hover:text-slate-900 transition-colors">Top Destinations</a></li>
-                <li><a href="#" className="hover:text-slate-900 transition-colors">Top Destinations by category</a></li>
-                <li><a href="#" className="hover:text-slate-900 transition-colors">Family Destinations Planning</a></li>
-                <li><a href="#" className="hover:text-slate-900 transition-colors">Couples Trip Planner</a></li>
-                <li><a href="#" className="hover:text-slate-900 transition-colors">Relaxation Places</a></li>
+                <li>
+                  <a href="#" className="hover:text-slate-900 transition-colors">
+                    Top Destinations
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-slate-900 transition-colors">
+                    Top Destinations by category
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-slate-900 transition-colors">
+                    Family Destinations Planning
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-slate-900 transition-colors">
+                    Couples Trip Planner
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-slate-900 transition-colors">
+                    Relaxation Places
+                  </a>
+                </li>
               </ul>
             </div>
 
             {/* Column 3: Company */}
             <div className="lg:col-span-2">
-              <h3 className="text-base font-bold text-slate-900 font-sans mb-4">
-                Company
-              </h3>
+              <h3 className="text-base font-bold text-slate-900 font-sans mb-4">Company</h3>
               <ul className="space-y-3 text-sm text-slate-500 font-sans">
-                <li><a href="#" className="hover:text-slate-900 transition-colors">About us</a></li>
-                <li><a href="#" className="hover:text-slate-900 transition-colors">Services</a></li>
-                <li><a href="#" className="hover:text-slate-900 transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-slate-900 transition-colors">Terms and Conditions</a></li>
+                <li>
+                  <a href="#" className="hover:text-slate-900 transition-colors">
+                    About us
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-slate-900 transition-colors">
+                    Services
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-slate-900 transition-colors">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-slate-900 transition-colors">
+                    Terms and Conditions
+                  </a>
+                </li>
               </ul>
             </div>
 
             {/* Column 4: Contact US */}
             <div className="lg:col-span-3">
-              <h3 className="text-base font-bold text-slate-900 font-sans mb-4">
-                Contact US
-              </h3>
+              <h3 className="text-base font-bold text-slate-900 font-sans mb-4">Contact US</h3>
               <ul className="space-y-3 text-sm text-slate-500 font-sans">
                 <li>+1042233227889</li>
                 <li>danielle_walker@icloud.com</li>

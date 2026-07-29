@@ -28,11 +28,7 @@ const DESTS = [
 
 function DestinationStrip({ offset = 0 }: { offset?: number }) {
   return (
-    <div
-      className="flex gap-5"
-      style={{ transform: `translateX(${offset}px)` }}
-      data-strip
-    >
+    <div className="flex gap-5" style={{ transform: `translateX(${offset}px)` }} data-strip>
       {DESTS.map((d, index) => (
         <button
           key={`${d.name}-${index}`}
@@ -98,118 +94,118 @@ export function HorizontalJourney() {
     gsap.registerPlugin(ScrollTrigger);
     let ctx: gsap.Context | undefined;
     const frame = requestAnimationFrame(() => {
-    ctx = gsap.context(() => {
-      const panels = gsap.utils.toArray<HTMLElement>("[data-panel]");
-      const total = panels.length;
+      ctx = gsap.context(() => {
+        const panels = gsap.utils.toArray<HTMLElement>("[data-panel]");
+        const total = panels.length;
 
-      // Intro reveal on the hero panel
-      const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
-      intro
-        .from("[data-hero-nav]", { y: -40, opacity: 0, duration: 0.8 })
-        .from(
-          "[data-hero-line] span",
-          { yPercent: 115, opacity: 0, duration: 1.1, stagger: 0.12 },
-          "-=0.4",
-        )
-        .from("[data-hero-search]", { y: 40, opacity: 0, duration: 0.9 }, "-=0.7")
-        .from(
-          "[data-hero-badge]",
-          { scale: 0.7, opacity: 0, duration: 0.7, stagger: 0.15 },
-          "-=0.6",
-        )
-        .from(
+        // Intro reveal on the hero panel
+        const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
+        intro
+          .from("[data-hero-nav]", { y: -40, opacity: 0, duration: 0.8 })
+          .from(
+            "[data-hero-line] span",
+            { yPercent: 115, opacity: 0, duration: 1.1, stagger: 0.12 },
+            "-=0.4",
+          )
+          .from("[data-hero-search]", { y: 40, opacity: 0, duration: 0.9 }, "-=0.7")
+          .from(
+            "[data-hero-badge]",
+            { scale: 0.7, opacity: 0, duration: 0.7, stagger: 0.15 },
+            "-=0.6",
+          )
+          .from(
+            bikeRef.current,
+            { xPercent: -55, opacity: 0, duration: 1.4, ease: "power2.out" },
+            "-=1.0",
+          )
+          .from("[data-doodle]", { opacity: 0, duration: 1, stagger: 0.1 }, "-=1.0");
+
+        // Horizontal scrolling of the 3 panels
+        const scroll = gsap.timeline({
+          scrollTrigger: {
+            trigger: root.current,
+            pin: true,
+            scrub: 1,
+            start: "top top",
+            end: () => "+=" + window.innerWidth * (total - 1) * 1.15,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        scroll.to(track.current, {
+          x: () => -(track.current!.scrollWidth - window.innerWidth),
+          ease: "none",
+          duration: total - 1,
+        });
+
+        // Bike drifts across the viewport while the world moves past it
+        scroll.fromTo(
           bikeRef.current,
-          { xPercent: -55, opacity: 0, duration: 1.4, ease: "power2.out" },
-          "-=1.0",
-        )
-        .from("[data-doodle]", { opacity: 0, duration: 1, stagger: 0.1 }, "-=1.0");
-
-      // Horizontal scrolling of the 3 panels
-      const scroll = gsap.timeline({
-        scrollTrigger: {
-          trigger: root.current,
-          pin: true,
-          scrub: 1,
-          start: "top top",
-          end: () => "+=" + window.innerWidth * (total - 1) * 1.15,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      scroll.to(track.current, {
-        x: () => -(track.current!.scrollWidth - window.innerWidth),
-        ease: "none",
-        duration: total - 1,
-      });
-
-      // Bike drifts across the viewport while the world moves past it
-      scroll.fromTo(
-        bikeRef.current,
-        { xPercent: 0 },
-        { xPercent: -36, ease: "none", duration: 1 },
-        0,
-      );
-      scroll.to(bikeRef.current, { xPercent: 14, ease: "none", duration: 1 }, 1);
-
-      // Parallax on the destination strips
-      gsap.utils.toArray<HTMLElement>("[data-strip]").forEach((strip) => {
-        scroll.fromTo(strip, { x: 0 }, { x: -320, ease: "none", duration: total - 1 }, 0);
-      });
-
-      // Text morph: EXPLORE THE DESTINATION -> CHOOSE A NEW EXPERIENCE.
-      const morph = gsap.timeline({ defaults: { ease: "power2.inOut" } });
-      morph
-        .to(morphA.current, {
-          opacity: 0,
-          yPercent: -28,
-          scaleY: 1.25,
-          skewX: -8,
-          filter: "blur(14px)",
-          duration: 0.5,
-        })
-        .fromTo(
-          morphB.current,
-          { opacity: 0, yPercent: 34, scaleY: 0.7, skewX: 10, filter: "blur(16px)" },
-          { opacity: 1, yPercent: 0, scaleY: 1, skewX: 0, filter: "blur(0px)", duration: 0.5 },
-          "-=0.28",
+          { xPercent: 0 },
+          { xPercent: -36, ease: "none", duration: 1 },
+          0,
         );
-      scroll.add(morph, 0.7);
+        scroll.to(bikeRef.current, { xPercent: 14, ease: "none", duration: 1 }, 1);
 
-      // Wheel rotation driven by scroll velocity + a constant idle spin
-      const spin = gsap.to(wheelFront.current, {
-        rotate: 360,
-        duration: 1.1,
-        repeat: -1,
-        ease: "none",
-        paused: true,
-      });
-      let idle: ReturnType<typeof setTimeout>;
-      ScrollTrigger.create({
-        trigger: root.current,
-        start: "top bottom",
-        end: "bottom top",
-        onUpdate: (self) => {
-          const v = Math.min(Math.abs(self.getVelocity()) / 900, 7);
-          spin.timeScale(0.35 + v);
-          spin.play();
-          clearTimeout(idle);
-          idle = setTimeout(() => spin.timeScale(0.28), 180);
-        },
-      });
-      spin.play();
+        // Parallax on the destination strips
+        gsap.utils.toArray<HTMLElement>("[data-strip]").forEach((strip) => {
+          scroll.fromTo(strip, { x: 0 }, { x: -320, ease: "none", duration: total - 1 }, 0);
+        });
 
-      // Panel 3 (Experience statement) content fade reveal attached to scroll timeline
-      scroll.from(
-        "[data-panel='3'] [data-reveal]",
-        {
-          opacity: 0,
-          y: 60,
-          duration: 0.7,
-          ease: "power2.out",
-        },
-        1.15,
-      );
-    }, root);
+        // Text morph: EXPLORE THE DESTINATION -> CHOOSE A NEW EXPERIENCE.
+        const morph = gsap.timeline({ defaults: { ease: "power2.inOut" } });
+        morph
+          .to(morphA.current, {
+            opacity: 0,
+            yPercent: -28,
+            scaleY: 1.25,
+            skewX: -8,
+            filter: "blur(14px)",
+            duration: 0.5,
+          })
+          .fromTo(
+            morphB.current,
+            { opacity: 0, yPercent: 34, scaleY: 0.7, skewX: 10, filter: "blur(16px)" },
+            { opacity: 1, yPercent: 0, scaleY: 1, skewX: 0, filter: "blur(0px)", duration: 0.5 },
+            "-=0.28",
+          );
+        scroll.add(morph, 0.7);
+
+        // Wheel rotation driven by scroll velocity + a constant idle spin
+        const spin = gsap.to(wheelFront.current, {
+          rotate: 360,
+          duration: 1.1,
+          repeat: -1,
+          ease: "none",
+          paused: true,
+        });
+        let idle: ReturnType<typeof setTimeout>;
+        ScrollTrigger.create({
+          trigger: root.current,
+          start: "top bottom",
+          end: "bottom top",
+          onUpdate: (self) => {
+            const v = Math.min(Math.abs(self.getVelocity()) / 900, 7);
+            spin.timeScale(0.35 + v);
+            spin.play();
+            clearTimeout(idle);
+            idle = setTimeout(() => spin.timeScale(0.28), 180);
+          },
+        });
+        spin.play();
+
+        // Panel 3 (Experience statement) content fade reveal attached to scroll timeline
+        scroll.from(
+          "[data-panel='3'] [data-reveal]",
+          {
+            opacity: 0,
+            y: 60,
+            duration: 0.7,
+            ease: "power2.out",
+          },
+          1.15,
+        );
+      }, root);
       ScrollTrigger.refresh();
     });
 
@@ -231,7 +227,10 @@ export function HorizontalJourney() {
 
       <div ref={track} className="flex h-full w-[300vw]">
         {/* PANEL 1 — HERO */}
-        <div data-panel="1" className="relative flex h-full w-screen flex-col items-center px-6 pt-28 md:px-12 md:pt-32">
+        <div
+          data-panel="1"
+          className="relative flex h-full w-screen flex-col items-center px-6 pt-28 md:px-12 md:pt-32"
+        >
           <PlaneDoodle
             data-doodle
             className="absolute top-[14%] left-[3%] hidden w-[130px] text-foreground/70 md:block"
@@ -272,7 +271,10 @@ export function HorizontalJourney() {
         </div>
 
         {/* PANEL 2 — DESTINATIONS + EXPLORE */}
-        <div data-panel="2" className="relative flex h-full w-screen flex-col justify-start px-6 pt-28 md:px-12 md:pt-32">
+        <div
+          data-panel="2"
+          className="relative flex h-full w-screen flex-col justify-start px-6 pt-28 md:px-12 md:pt-32"
+        >
           <DestinationStrip />
           <div className="mt-auto mb-[22vh] flex justify-end">
             <div className="w-[62vw]">
@@ -282,12 +284,18 @@ export function HorizontalJourney() {
         </div>
 
         {/* PANEL 3 — EXPERIENCE STATEMENT */}
-        <div data-panel="3" className="relative flex h-full w-screen flex-col items-center ml-210 justify-start px-6 pt-[18vh] md:px-12">
+        <div
+          data-panel="3"
+          className="relative flex h-full w-screen flex-col items-center ml-210 justify-start px-6 pt-[18vh] md:px-12"
+        >
           <PlaneDoodle
             data-doodle
             className="absolute top-[10%] left-[3%] hidden w-[120px] text-foreground/60 md:block"
           />
-          <h2 data-reveal className="text-display text-center text-[clamp(30px,5.6vw,78px)] leading-[1.12]">
+          <h2
+            data-reveal
+            className="text-display text-center text-[clamp(30px,5.6vw,78px)] leading-[1.12]"
+          >
             It&rsquo;s not just a HOLIDAY
             <br />
             It&rsquo;s a EXPERIENCE.
@@ -301,7 +309,11 @@ export function HorizontalJourney() {
         className="pointer-events-none absolute bottom-[-2vh] left-[24vw] z-20 w-[52vw] max-w-[880px] min-w-[420px] will-change-transform"
       >
         <div className="relative">
-          <img src={bike} alt="Traveller riding a loaded motorcycle across India" className="w-full" />
+          <img
+            src={bike}
+            alt="Traveller riding a loaded motorcycle across India"
+            className="w-full"
+          />
           {/* <img
             ref={wheelFront}
             src={wheel.url}
@@ -319,4 +331,3 @@ export function HorizontalJourney() {
     </section>
   );
 }
-
