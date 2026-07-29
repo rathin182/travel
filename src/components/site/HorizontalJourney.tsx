@@ -312,7 +312,7 @@ export function HorizontalJourney() {
       >
         <div className="relative">
           <img src={bike.url} alt="Traveller riding a loaded motorcycle across India" className="w-full" />
-          <img
+          {/* <img
             ref={wheelFront}
             src={wheel.url}
             alt=""
@@ -323,7 +323,7 @@ export function HorizontalJourney() {
               left: `${((1032 - 124) / 1408) * 100}%`,
               top: `${((580 - 124) / 768) * 100}%`,
             }}
-          />
+          /> */}
         </div>
       </div>
     </section>
