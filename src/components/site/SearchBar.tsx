@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import honeymoon from "@/assets/cat-honeymoon.jpg.asset.json";
-import family from "@/assets/cat-family.jpg.asset.json";
-import friends from "@/assets/cat-friends.jpg.asset.json";
-import couples from "@/assets/cat-couples.jpg.asset.json";
+import honeymoon from "@/assets/honeymoon.jpg";
+import family from "@/assets/family.jpg";
+import friends from "@/assets/friends.jpg";
+import couples from "@/assets/couples.jpg";
 
 const DESTINATIONS = [
   "Kashmir, India",
@@ -24,10 +24,10 @@ const DATES = [
 const PEOPLE = ["1 Traveller", "2 Travellers", "3 Travellers", "4 Travellers", "5+ Travellers"];
 
 const CATEGORIES = [
-  { label: "Honeymoon", img: honeymoon.url },
-  { label: "Family", img: family.url },
-  { label: "Friends", img: friends.url },
-  { label: "Couples", img: couples.url },
+  { label: "Honeymoon", img: honeymoon },
+  { label: "Family", img: family },
+  { label: "Friends", img: friends },
+  { label: "Couples", img: couples },
 ];
 
 type FieldKey = "where" | "when" | "many";

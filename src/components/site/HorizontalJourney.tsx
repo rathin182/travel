@@ -6,20 +6,24 @@ import { Nav } from "./Nav";
 import { SearchBar } from "./SearchBar";
 import { PlaneDoodle } from "./PlaneDoodle";
 
-import bike from "@/assets/bike.png.asset.json";
+import bike from "../../assets/bike.png";
 import wheel from "@/assets/wheel.png.asset.json";
-import sikkim from "@/assets/dest-sikkim.jpg.asset.json";
-import goa from "@/assets/dest-goa.jpg.asset.json";
-import punjab from "@/assets/dest-punjab.jpg.asset.json";
-import banaras from "@/assets/dest-banaras.jpg.asset.json";
-import hyderabad from "@/assets/dest-hyderabad.jpg.asset.json";
+import sikkim from "../../assets/sikkim.jpg";
+import goa from "../../assets/goa.jpg";
+import punjab from "../../assets/punjab.jpg";
+import banaras from "../../assets/banaras.jpg";
+import hyderabad from "../../assets/hyderabad.jpg";
 
 const DESTS = [
-  { name: "SIKKIM", img: sikkim.url },
-  { name: "GOA", img: goa.url },
-  { name: "PUNJAB", img: punjab.url },
-  { name: "BANARAS", img: banaras.url },
-  { name: "HYDERABAD", img: hyderabad.url },
+  { name: "SIKKIM", img: sikkim },
+  { name: "GOA", img: goa },
+  { name: "PUNJAB", img: punjab },
+  { name: "BANARAS", img: banaras },
+  { name: "HYDERABAD", img: hyderabad },
+  { name: "GOA", img: goa },
+  { name: "PUNJAB", img: punjab },
+  { name: "BANARAS", img: banaras },
+  { name: "HYDERABAD", img: hyderabad },
 ];
 
 function DestinationStrip({ offset = 0 }: { offset?: number }) {
@@ -29,9 +33,9 @@ function DestinationStrip({ offset = 0 }: { offset?: number }) {
       style={{ transform: `translateX(${offset}px)` }}
       data-strip
     >
-      {DESTS.map((d) => (
+      {DESTS.map((d, index) => (
         <button
-          key={d.name}
+          key={`${d.name}-${index}`}
           type="button"
           className="group relative h-[42vh] w-[17vw] min-w-[190px] shrink-0 overflow-hidden rounded-[22px] transition-transform duration-500 ease-out hover:-translate-y-2"
         >
@@ -120,7 +124,7 @@ export function HorizontalJourney() {
         )
         .from("[data-doodle]", { opacity: 0, duration: 1, stagger: 0.1 }, "-=1.0");
 
-      // Horizontal scrolling of the 4 panels
+      // Horizontal scrolling of the 3 panels
       const scroll = gsap.timeline({
         scrollTrigger: {
           trigger: root.current,
@@ -142,23 +146,14 @@ export function HorizontalJourney() {
       scroll.fromTo(
         bikeRef.current,
         { xPercent: 0 },
-        { xPercent: -46, ease: "none", duration: 1 },
+        { xPercent: -36, ease: "none", duration: 1 },
         0,
       );
-      scroll.to(bikeRef.current, { xPercent: 28, ease: "none", duration: 1 }, 1);
-      scroll.to(bikeRef.current, { xPercent: -6, ease: "none", duration: 1 }, 2);
-
-      gsap.to(bikeRef.current, {
-        y: -14,
-        duration: 0.34,
-        yoyo: true,
-        repeat: -1,
-        ease: "sine.inOut",
-      });
+      scroll.to(bikeRef.current, { xPercent: 14, ease: "none", duration: 1 }, 1);
 
       // Parallax on the destination strips
       gsap.utils.toArray<HTMLElement>("[data-strip]").forEach((strip) => {
-        scroll.fromTo(strip, { x: 0 }, { x: -160, ease: "none", duration: total - 1 }, 0);
+        scroll.fromTo(strip, { x: 0 }, { x: -320, ease: "none", duration: total - 1 }, 0);
       });
 
       // Text morph: EXPLORE THE DESTINATION -> CHOOSE A NEW EXPERIENCE.
@@ -178,7 +173,7 @@ export function HorizontalJourney() {
           { opacity: 1, yPercent: 0, scaleY: 1, skewX: 0, filter: "blur(0px)", duration: 0.5 },
           "-=0.28",
         );
-      scroll.add(morph, 1.05);
+      scroll.add(morph, 0.7);
 
       // Wheel rotation driven by scroll velocity + a constant idle spin
       const spin = gsap.to(wheelFront.current, {
@@ -203,13 +198,17 @@ export function HorizontalJourney() {
       });
       spin.play();
 
-      // Panel content reveals
-      gsap.from("[data-panel='4'] [data-reveal]", {
-        scrollTrigger: { trigger: root.current, start: "top top", scrub: 1 },
-        opacity: 0,
-        y: 60,
-        stagger: 0.2,
-      });
+      // Panel 3 (Experience statement) content fade reveal attached to scroll timeline
+      scroll.from(
+        "[data-panel='3'] [data-reveal]",
+        {
+          opacity: 0,
+          y: 60,
+          duration: 0.7,
+          ease: "power2.out",
+        },
+        1.15,
+      );
     }, root);
       ScrollTrigger.refresh();
     });
@@ -230,7 +229,7 @@ export function HorizontalJourney() {
         <Nav />
       </div>
 
-      <div ref={track} className="flex h-full w-[400vw]">
+      <div ref={track} className="flex h-full w-[300vw]">
         {/* PANEL 1 — HERO */}
         <div data-panel="1" className="relative flex h-full w-screen flex-col items-center px-6 pt-28 md:px-12 md:pt-32">
           <PlaneDoodle
@@ -282,17 +281,8 @@ export function HorizontalJourney() {
           </div>
         </div>
 
-        {/* PANEL 3 — DESTINATIONS CONTINUED */}
-        <div data-panel="3" className="relative flex h-full w-screen flex-col justify-center px-6 md:px-12">
-          <PlaneDoodle
-            data-doodle
-            className="absolute top-[12%] left-[2%] hidden w-[120px] text-foreground/60 md:block"
-          />
-          <DestinationStrip offset={-40} />
-        </div>
-
-        {/* PANEL 4 — EXPERIENCE STATEMENT */}
-        <div data-panel="4" className="relative flex h-full w-screen flex-col items-center justify-start px-6 pt-[18vh] md:px-12">
+        {/* PANEL 3 — EXPERIENCE STATEMENT */}
+        <div data-panel="3" className="relative flex h-full w-screen flex-col items-center ml-210 justify-start px-6 pt-[18vh] md:px-12">
           <PlaneDoodle
             data-doodle
             className="absolute top-[10%] left-[3%] hidden w-[120px] text-foreground/60 md:block"
@@ -311,7 +301,7 @@ export function HorizontalJourney() {
         className="pointer-events-none absolute bottom-[-2vh] left-[24vw] z-20 w-[52vw] max-w-[880px] min-w-[420px] will-change-transform"
       >
         <div className="relative">
-          <img src={bike.url} alt="Traveller riding a loaded motorcycle across India" className="w-full" />
+          <img src={bike} alt="Traveller riding a loaded motorcycle across India" className="w-full" />
           {/* <img
             ref={wheelFront}
             src={wheel.url}
@@ -329,3 +319,4 @@ export function HorizontalJourney() {
     </section>
   );
 }
+

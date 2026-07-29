@@ -1,69 +1,55 @@
 import { Reveal } from "./Reveal";
-import t1 from "@/assets/t1.jpg.asset.json";
-import t2 from "@/assets/t2.jpg.asset.json";
-import t3 from "@/assets/t3.jpg.asset.json";
-import t4 from "@/assets/t4.jpg.asset.json";
+import t1 from "@/assets/t1.jpg";
+import t2 from "@/assets/t2.jpg";
+import t3 from "@/assets/t3.jpg";
+import t4 from "@/assets/t4.jpg";
 
-const ITEMS = [
-  {
-    img: t1.url,
-    name: "Ananya Sharma",
-    place: "Kashmir",
-    text: "Every detail was handled before we even asked. The valley at sunrise is something I still think about.",
-  },
-  {
-    img: t2.url,
-    name: "Rohit Verma",
-    place: "Goa",
-    text: "Booked in ten minutes, travelled for six days, zero stress. The stay picks were genuinely great.",
-  },
-  {
-    img: t3.url,
-    name: "Meera Iyer",
-    place: "Jaipur",
-    text: "Our family trip felt designed around us — the pacing, the food stops, the little surprises.",
-  },
-  {
-    img: t4.url,
-    name: "Kabir Singh",
-    place: "Sikkim",
-    text: "Riding through the passes with everything pre-arranged made it the smoothest trip I have taken.",
-  },
+const VIDEOS = [
+  { img: t1, title: "Traveler Story 1" },
+  { img: t2, title: "Traveler Story 2" },
+  { img: t3, title: "Traveler Story 3" },
+  { img: t4, title: "Traveler Story 4" },
 ];
 
 export function Testimonials() {
   return (
-    <section className="bg-surface px-6 py-20 md:px-12 md:py-24">
+    <section className="px-6 py-20 md:px-12 md:py-24 max-w-7xl mx-auto">
       <Reveal>
-        <h2 data-reveal className="text-display max-w-[720px] text-[clamp(26px,3.4vw,44px)]">
-          Stories from people who
-          <br />
-          rode with us
-        </h2>
+        <div data-reveal className="text-center mb-12">
+          <h2 className="font-sans text-[clamp(28px,4vw,52px)] font-bold text-slate-900 tracking-tight">
+            What Other{" "}
+            <span className="bg-amber-200/90 text-slate-900 px-3 py-1 rounded-lg inline-block">
+              Travellers
+            </span>{" "}
+            Says
+          </h2>
+        </div>
       </Reveal>
-      <Reveal className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" stagger={0.08}>
-        {ITEMS.map((t) => (
-          <figure
-            key={t.name}
+
+      <Reveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" stagger={0.08}>
+        {VIDEOS.map((v, i) => (
+          <div
+            key={i}
             data-reveal
-            className="rounded-[22px] bg-card p-5 shadow-[0_18px_50px_-36px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:-translate-y-2"
+            className="group relative overflow-hidden rounded-[24px] aspect-[9/14] h-[380px] sm:h-[440px] w-full shadow-lg bg-slate-900 cursor-pointer"
           >
-            <blockquote className="text-[14px] leading-relaxed text-foreground/85">
-              &ldquo;{t.text}&rdquo;
-            </blockquote>
-            <figcaption className="mt-5 flex items-center gap-3">
-              <img
-                src={t.img}
-                alt={t.name}
-                className="h-11 w-11 rounded-full object-cover"
-                loading="lazy"
-              />
-              <span>
-                <span className="block text-[14px] font-semibold">{t.name}</span>
-                <span className="block text-[12px] text-muted-foreground">{t.place}</span>
-              </span>
-            </figcaption>
-          </figure>
+            <img
+              src={v.img}
+              alt={v.title}
+              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              loading="lazy"
+            />
+
+            {/* Dark gradient for atmosphere */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+
+            {/* Centered White Play Icon */}
+            <div className="absolute inset-0 flex items-center justify-center z-10">
+              <div className="h-14 w-14 rounded-full bg-white/25 backdrop-blur-md border border-white/40 flex items-center justify-center shadow-xl transition-all duration-300 group-hover:scale-110 group-hover:bg-white/40">
+                <span className="text-white text-xl translate-x-0.5 font-sans">▶</span>
+              </div>
+            </div>
+          </div>
         ))}
       </Reveal>
     </section>

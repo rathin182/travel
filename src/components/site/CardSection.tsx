@@ -1,8 +1,8 @@
 import { Reveal } from "./Reveal";
 import { PlaneDoodle } from "./PlaneDoodle";
-import kashmir from "@/assets/place-kashmir.jpg.asset.json";
-import jaipur from "@/assets/place-jaipur.jpg.asset.json";
-import goa from "@/assets/place-goa.jpg.asset.json";
+import kashmir from "../../assets/place-kashmir.jpg";
+import jaipur from "../../assets/place-jaipur.jpg";
+import goa from "../../assets/place-goa.jpg";
 
 export type PlaceCard = {
   img: string;
@@ -15,7 +15,7 @@ export type PlaceCard = {
 
 const BASE: PlaceCard[] = [
   {
-    img: kashmir.url,
+    img: kashmir,
     tags: ["KASHMIR", "Honeymoon"],
     title: "Spent unforgettable moments in Kashmir with partner.",
     rating: "4.9",
@@ -23,7 +23,7 @@ const BASE: PlaceCard[] = [
     price: "₹ 19,400",
   },
   {
-    img: jaipur.url,
+    img: jaipur,
     tags: ["Jaipur"],
     title: "Create wall framing moments with family in Jaipur",
     rating: "3.9",
@@ -31,7 +31,7 @@ const BASE: PlaceCard[] = [
     price: "₹ 19,400",
   },
   {
-    img: goa.url,
+    img: goa,
     tags: ["GOA", "Couples"],
     title: "Enjoy the night life and shores of goa with special one",
     rating: "5.0",
@@ -46,40 +46,58 @@ function Card({ c }: { c: PlaceCard }) {
   return (
     <article
       data-reveal
-      className="group overflow-hidden rounded-[22px] bg-card shadow-[0_18px_50px_-34px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-out hover:-translate-y-2"
+      className="group relative transition-transform duration-500 ease-out hover:-translate-y-2"
     >
-      <div className="relative h-[210px] overflow-hidden rounded-[22px]">
+      {/* Top Image Container */}
+      <div className="relative h-[270px] sm:h-[290px] w-full overflow-hidden rounded-[26px] shadow-sm">
         <img
           src={c.img}
           alt={c.title}
           className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
           loading="lazy"
         />
-        <div className="absolute top-3 right-3 flex gap-2">
+        
+        {/* Top Right Tags using Krona One font */}
+        <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
           {c.tags.map((t) => (
             <span
               key={t}
-              className="rounded-full bg-ink/85 px-3.5 py-1.5 text-[11px] font-medium text-ink-foreground backdrop-blur-sm"
+              className="font-krona rounded-full bg-black/60 backdrop-blur-md px-4 py-1.5 text-[11px] sm:text-[12px] font-normal text-white uppercase tracking-wider border border-white/20 shadow-md"
             >
               {t}
             </span>
           ))}
         </div>
-        <span className="absolute bottom-3 left-3 rounded-full bg-ink/85 px-2.5 py-1 text-[11px] text-highlight backdrop-blur-sm">
-          ★ {c.rating}
-        </span>
+
+        {/* Rating Pill on Bottom Left of Image */}
+        <div className="absolute bottom-16 left-5 z-10">
+          <span className="rounded-full bg-amber-500/30 backdrop-blur-md px-3.5 py-1 text-[12px] font-semibold text-amber-100 border border-amber-400/40 flex items-center gap-1 shadow-sm">
+            <span className="text-amber-300">★</span> {c.rating}
+          </span>
+        </div>
       </div>
-      <div className="px-4 pt-3 pb-4">
-        <h3 className="text-[14px] leading-snug font-semibold">{c.title}</h3>
-        <p className="mt-3 text-[13px] text-muted-foreground">{c.duration}</p>
-        <div className="mt-1 flex items-center justify-between">
-          <p className="text-[15px] font-medium">{c.price}</p>
+
+      {/* Floating White Content Card overlapping the image bottom */}
+      <div className="relative z-20 -mt-12 mx-3.5 rounded-[22px] bg-white p-5 sm:p-6 text-slate-900 shadow-[0_14px_45px_-15px_rgba(0,0,0,0.18)] border border-slate-100/80">
+        <h3 className="font-sans text-[15px] sm:text-[17px] leading-snug font-bold text-slate-900 tracking-tight">
+          {c.title}
+        </h3>
+        
+        <p className="font-sans mt-3 text-[13px] sm:text-[14px] font-medium text-slate-400">
+          {c.duration}
+        </p>
+
+        <div className="mt-3 flex items-center justify-between">
+          <p className="font-sans text-[18px] sm:text-[20px] font-bold text-slate-900">
+            {c.price}
+          </p>
+          
           <button
             type="button"
-            className="flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-[12px] text-ink-foreground transition-transform duration-200 hover:scale-105"
+            className="font-sans flex items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[12px] sm:text-[13px] font-medium text-white transition-all duration-200 hover:bg-neutral-800"
           >
             Know More
-            <span aria-hidden="true">→</span>
+            <span aria-hidden="true" className="text-sm">→</span>
           </button>
         </div>
       </div>

@@ -1,52 +1,76 @@
 import { Reveal } from "./Reveal";
-
-const COLS = [
-  { title: "Explore", links: ["Destinations", "Packages", "Group Tours", "Honeymoon"] },
-  { title: "Company", links: ["About Us", "Careers", "Press", "Contact Us"] },
-  { title: "Support", links: ["Help Centre", "Cancellation", "Privacy", "Terms"] },
-];
+import { Twitter, Linkedin, Facebook } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-ink px-6 pt-20 pb-10 text-ink-foreground md:px-12">
-      <Reveal>
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.4fr_2fr]">
-          <div data-reveal>
-            <p className="text-display text-[clamp(30px,4.4vw,60px)] leading-[1.1]">
-              Ready when
-              <br />
-              you are.
-            </p>
-            <button
-              type="button"
-              className="mt-7 rounded-full bg-ink-foreground px-7 py-3.5 text-[14px] text-ink transition-transform duration-200 hover:scale-105"
-            >
-              Start planning
-            </button>
+    <footer className="bg-white px-6 pt-20 pb-12 text-slate-800 border-t border-slate-100 md:px-12">
+      <div className="max-w-7xl mx-auto">
+        <Reveal>
+          <div data-reveal className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-12 mb-16">
+            {/* Column 1: LOGO */}
+            <div className="lg:col-span-4">
+              <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 font-sans">
+                LOGO
+              </h2>
+            </div>
+
+            {/* Column 2: Explore */}
+            <div className="lg:col-span-3">
+              <h3 className="text-base font-bold text-slate-900 font-sans mb-4">
+                Explore
+              </h3>
+              <ul className="space-y-3 text-sm text-slate-500 font-sans">
+                <li><a href="#" className="hover:text-slate-900 transition-colors">Top Destinations</a></li>
+                <li><a href="#" className="hover:text-slate-900 transition-colors">Top Destinations by category</a></li>
+                <li><a href="#" className="hover:text-slate-900 transition-colors">Family Destinations Planning</a></li>
+                <li><a href="#" className="hover:text-slate-900 transition-colors">Couples Trip Planner</a></li>
+                <li><a href="#" className="hover:text-slate-900 transition-colors">Relaxation Places</a></li>
+              </ul>
+            </div>
+
+            {/* Column 3: Company */}
+            <div className="lg:col-span-2">
+              <h3 className="text-base font-bold text-slate-900 font-sans mb-4">
+                Company
+              </h3>
+              <ul className="space-y-3 text-sm text-slate-500 font-sans">
+                <li><a href="#" className="hover:text-slate-900 transition-colors">About us</a></li>
+                <li><a href="#" className="hover:text-slate-900 transition-colors">Services</a></li>
+                <li><a href="#" className="hover:text-slate-900 transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-slate-900 transition-colors">Terms and Conditions</a></li>
+              </ul>
+            </div>
+
+            {/* Column 4: Contact US */}
+            <div className="lg:col-span-3">
+              <h3 className="text-base font-bold text-slate-900 font-sans mb-4">
+                Contact US
+              </h3>
+              <ul className="space-y-3 text-sm text-slate-500 font-sans">
+                <li>+1042233227889</li>
+                <li>danielle_walker@icloud.com</li>
+                <li>300 Colony Place, Plymouth MA 2360</li>
+              </ul>
+            </div>
           </div>
-          <div data-reveal className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-            {COLS.map((c) => (
-              <div key={c.title}>
-                <p className="text-[13px] font-semibold tracking-wide uppercase opacity-60">
-                  {c.title}
-                </p>
-                <ul className="mt-4 space-y-2.5">
-                  {c.links.map((l) => (
-                    <li key={l}>
-                      <a href="#" className="text-[14px] opacity-80 transition-opacity hover:opacity-100">
-                        {l}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+        </Reveal>
+
+        {/* Bottom Social Bar */}
+        <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-sans">
+          <div className="flex items-center gap-5 text-slate-700">
+            <a href="#" className="hover:text-black transition-colors" aria-label="Twitter">
+              <Twitter className="h-4 w-4 fill-slate-800 stroke-none" />
+            </a>
+            <a href="#" className="hover:text-black transition-colors" aria-label="LinkedIn">
+              <Linkedin className="h-4 w-4 fill-slate-800 stroke-none" />
+            </a>
+            <a href="#" className="hover:text-black transition-colors" aria-label="Facebook">
+              <Facebook className="h-4 w-4 fill-slate-800 stroke-none" />
+            </a>
           </div>
+
+          <p>All Copyrights are reserved by Go Packers</p>
         </div>
-      </Reveal>
-      <div className="mt-16 flex flex-col gap-3 border-t border-ink-foreground/15 pt-6 text-[13px] opacity-60 sm:flex-row sm:items-center sm:justify-between">
-        <p>&copy; {new Date().getFullYear()} Go Packers. All rights reserved.</p>
-        <p>Made for travellers across India.</p>
       </div>
     </footer>
   );

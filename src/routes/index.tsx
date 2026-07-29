@@ -4,7 +4,8 @@ import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 import { HorizontalJourney } from "@/components/site/HorizontalJourney";
 import { CardSection } from "@/components/site/CardSection";
 import { FeatureBanner } from "@/components/site/FeatureBanner";
-import { GuideSection } from "@/components/site/GuideSection";
+import { AmenitiesSection } from "@/components/site/AmenitiesSection";
+import { ExploreBanner } from "@/components/site/ExploreBanner";
 import { Testimonials } from "@/components/site/Testimonials";
 import { Footer } from "@/components/site/Footer";
 
@@ -36,7 +37,8 @@ function Index() {
       <CardSection id="top-places" title="Top Places to visit" />
       <FeatureBanner />
       <CardSection id="packages" title="Best Tour Packages" tint />
-      <GuideSection />
+      <AmenitiesSection />
+      <ExploreBanner />
       <Testimonials />
       <Footer />
     </main>
