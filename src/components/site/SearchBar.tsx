@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import honeymoon from "../../assets/honeymoon.jpg";
 import family from "../../assets/family.jpg";
 import friends from "../../assets/friends.jpg";
-import couples from "../../assets/couples.jpg";
+import couples from "../../assets/Couples.jpg";
 
 const DESTINATIONS = [
   "Kashmir, India",
