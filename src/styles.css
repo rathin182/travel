@@ -1,0 +1,192 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Go Packers design system.
+ * Fonts: DM Sans (body), Unbounded (display), Krona One (labels).
+ * All colors are oklch semantic tokens.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Unbounded", "DM Sans", sans-serif;
+  --font-krona: "Krona One", "DM Sans", sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-highlight: var(--highlight);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-magenta: var(--brand-magenta);
+  --color-brand-orange: var(--brand-orange);
+  --color-surface: var(--surface);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 1rem;
+
+  --background: oklch(0.988 0.004 95);
+  --foreground: oklch(0.24 0.008 265);
+  --surface: oklch(0.968 0.005 95);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.008 265);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.008 265);
+
+  --primary: oklch(0.19 0.008 265);
+  --primary-foreground: oklch(0.99 0.003 95);
+  --secondary: oklch(0.955 0.005 95);
+  --secondary-foreground: oklch(0.24 0.008 265);
+  --muted: oklch(0.955 0.005 95);
+  --muted-foreground: oklch(0.58 0.012 265);
+  --accent: oklch(0.955 0.005 95);
+  --accent-foreground: oklch(0.24 0.008 265);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.99 0.003 95);
+
+  --ink: oklch(0.17 0.006 265);
+  --ink-foreground: oklch(0.99 0.003 95);
+  --highlight: oklch(0.885 0.135 92);
+  --brand-blue: oklch(0.4 0.145 258);
+  --brand-magenta: oklch(0.42 0.175 8);
+  --brand-orange: oklch(0.76 0.155 62);
+
+  --border: oklch(0.9 0.006 95);
+  --input: oklch(0.9 0.006 95);
+  --ring: oklch(0.7 0.03 95);
+
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  --sidebar: oklch(0.984 0.003 247.858);
+  --sidebar-foreground: oklch(0.24 0.008 265);
+  --sidebar-primary: oklch(0.19 0.008 265);
+  --sidebar-primary-foreground: oklch(0.99 0.003 95);
+  --sidebar-accent: oklch(0.955 0.005 95);
+  --sidebar-accent-foreground: oklch(0.24 0.008 265);
+  --sidebar-border: oklch(0.9 0.006 95);
+  --sidebar-ring: oklch(0.7 0.03 95);
+}
+
+.dark {
+  --background: oklch(0.17 0.006 265);
+  --foreground: oklch(0.98 0.003 95);
+  --surface: oklch(0.21 0.008 265);
+  --card: oklch(0.21 0.008 265);
+  --card-foreground: oklch(0.98 0.003 95);
+  --popover: oklch(0.21 0.008 265);
+  --popover-foreground: oklch(0.98 0.003 95);
+  --primary: oklch(0.95 0.003 95);
+  --primary-foreground: oklch(0.19 0.008 265);
+  --secondary: oklch(0.27 0.008 265);
+  --secondary-foreground: oklch(0.98 0.003 95);
+  --muted: oklch(0.27 0.008 265);
+  --muted-foreground: oklch(0.72 0.01 265);
+  --accent: oklch(0.27 0.008 265);
+  --accent-foreground: oklch(0.98 0.003 95);
+  --ink: oklch(0.98 0.003 95);
+  --ink-foreground: oklch(0.17 0.006 265);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+}
+
+@utility text-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+
+@utility text-krona {
+  font-family: var(--font-krona);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+/* Highlight swipe under nav active item / words */
+@utility marker-underline {
+  background-image: linear-gradient(
+    to top,
+    var(--highlight) 0%,
+    var(--highlight) 42%,
+    transparent 42%
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+@utility vertical-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Prevent flash of unstyled scroll-driven elements */
+.gp-reveal {
+  opacity: 0;
+}
