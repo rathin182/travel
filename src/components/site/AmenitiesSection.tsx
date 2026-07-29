@@ -97,7 +97,7 @@ export function AmenitiesSection() {
 
         {/* Right Column: Preview Image + Description */}
         <div data-reveal className="lg:col-span-6 flex flex-col">
-          <div className="overflow-hidden rounded-[20px] h-[300px] sm:h-[350px] w-full shadow-md bg-slate-100">
+          <div className="overflow-hidden  h-[300px] sm:h-[350px] w-full shadow-md bg-slate-100">
             <img
               src={activeItem.image}
               alt={activeItem.label}

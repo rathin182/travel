@@ -37,7 +37,7 @@ export function FeatureBanner() {
 
   return (
     <section ref={ref} className="px-6 pb-20 md:px-12">
-      <div className="relative h-[72vh] min-h-[500px] max-h-[750px] w-full overflow-hidden rounded-[28px] shadow-2xl">
+      <div className="relative h-[72vh] min-h-[500px] max-h-[750px] w-full overflow-hidden shadow-2xl">
         <img
           data-parallax-img
           src={banner}
@@ -46,7 +46,7 @@ export function FeatureBanner() {
           loading="lazy"
         />
         {/* Gradient overlay for high text contrast matching screenshot */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/20 top-4" />
 
         <div
           data-banner-copy
