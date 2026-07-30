@@ -63,11 +63,11 @@ export function AmenitiesSection() {
   const activeItem = AMENITIES.find((a) => a.id === activeId) || AMENITIES[2];
 
   return (
-    <section className="px-6 py-16 md:px-12 md:py-24 max-w-7xl mx-auto">
+    <section className="px-6 py-16 md:px-12 md:py-24 max-w-7xl mx-auto font-krona">
       <Reveal>
         <h2
           data-reveal
-          className="font-sans text-[clamp(28px,3.8vw,48px)] font-bold tracking-tight mb-10 text-slate-900"
+          className="font-sans text-[clamp(28px,3.8vw,48px)]  tracking-tight mb-10 text-slate-900"
         >
           Amenities For Travellers
         </h2>
@@ -83,10 +83,10 @@ export function AmenitiesSection() {
                 key={item.id}
                 type="button"
                 onClick={() => setActiveId(item.id)}
-                className={`w-full text-left px-6 py-3.5 rounded-lg text-lg sm:text-xl font-medium transition-all duration-200 flex items-center justify-between ${
+                className={`w-full text-left px-6 py-3.5 text-7xl sm:text-xl font-medium transition-all duration-200 flex items-center justify-between ${
                   isActive
                     ? "bg-black text-white font-semibold shadow-md"
-                    : "text-slate-900 hover:bg-slate-100/80"
+                    : "text-slate-900/60 hover:bg-slate-100/80 "
                 }`}
               >
                 <span>{item.label}</span>
@@ -113,7 +113,7 @@ export function AmenitiesSection() {
             <span className="font-semibold text-slate-900 text-lg font-sans">Explore</span>
             <button
               type="button"
-              className="h-11 w-11 rounded-lg bg-neutral-900 text-white flex items-center justify-center hover:bg-black transition-all shadow-sm"
+              className="h-11 w-11 bg-neutral-900 text-white flex items-center justify-center hover:bg-black transition-all shadow-sm"
               aria-label="Explore amenity"
             >
               <span className="text-xl leading-none">↗</span>

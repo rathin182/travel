@@ -119,7 +119,7 @@ export function SearchBar() {
 
   return (
     <div ref={ref} className="relative z-30 mx-auto w-full max-w-[640px]">
-      <div className="flex items-center rounded-full border border-border bg-card px-1.5 py-1.5 shadow-[0_18px_50px_-28px_rgba(0,0,0,0.4)]">
+      <div className="flex items-center rounded-full border border-border bg-card px-1.5  shadow-[0_18px_50px_-28px_rgba(0,0,0,0.4)]">
         <Field
           id="where"
           label="Where"

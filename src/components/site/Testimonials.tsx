@@ -18,7 +18,7 @@ export function Testimonials() {
         <div data-reveal className="text-center mb-12">
           <h2 className="font-sans text-[clamp(28px,4vw,52px)] font-bold text-slate-900 tracking-tight">
             What Other{" "}
-            <span className="bg-amber-200/90 text-slate-900 px-3 py-1 rounded-lg inline-block">
+            <span className="text-amber-200/90  px-3 py-1 rounded-lg inline-block">
               Travellers
             </span>{" "}
             Says

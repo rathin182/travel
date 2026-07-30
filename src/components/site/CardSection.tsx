@@ -92,7 +92,7 @@ function Card({ c }: { c: PlaceCard }) {
 
           <button
             type="button"
-            className="font-sans flex items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[12px] sm:text-[13px] font-medium text-white transition-all duration-200 hover:bg-neutral-800"
+            className="font-sans flex items-center gap-2 rounded-md bg-black px-5 py-2.5 text-[12px] sm:text-[13px]  text-white transition-all duration-200 hover:bg-neutral-800"
           >
             Know More
             <span aria-hidden="true" className="text-sm">

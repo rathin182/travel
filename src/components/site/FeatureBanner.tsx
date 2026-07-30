@@ -37,7 +37,7 @@ export function FeatureBanner() {
 
   return (
     <section ref={ref} className="px-6 pb-20 md:px-12">
-      <div className="relative h-[72vh] min-h-[500px] max-h-[750px] w-full overflow-hidden shadow-2xl">
+      <div className="relative h-[88vh] min-h-[620px] max-h-[920px] w-full overflow-hidden shadow-2xl">
         <img
           data-parallax-img
           src={banner}

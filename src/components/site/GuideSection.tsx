@@ -36,7 +36,7 @@ export function GuideSection() {
               ["4.9", "Average rating"],
             ].map(([n, l]) => (
               <div key={l}>
-                <p className="text-krona text-[24px]">{n}</p>
+                <p className="font-krona font-bold text-[24px] text-foreground">{n}</p>
                 <p className="mt-1 text-[13px] text-muted-foreground">{l}</p>
               </div>
             ))}

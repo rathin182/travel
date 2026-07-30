@@ -20,10 +20,7 @@ const DESTS = [
   { name: "PUNJAB", img: punjab },
   { name: "BANARAS", img: banaras },
   { name: "HYDERABAD", img: hyderabad },
-  { name: "GOA", img: goa },
-  { name: "PUNJAB", img: punjab },
-  { name: "BANARAS", img: banaras },
-  { name: "HYDERABAD", img: hyderabad },
+  
 ];
 
 function DestinationStrip({ offset = 0 }: { offset?: number }) {
@@ -42,7 +39,7 @@ function DestinationStrip({ offset = 0 }: { offset?: number }) {
             loading="lazy"
           />
           <span className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
-          <span className="vertical-label absolute bottom-5 left-4 text-display text-[26px] text-ink-foreground drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+          <span className="vertical-label absolute bottom-20 left-4 text-display text-[45px] text-ink-foreground drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
             {d.name}
           </span>
         </button>
@@ -54,9 +51,12 @@ function DestinationStrip({ offset = 0 }: { offset?: number }) {
 function MorphHeading({
   refA,
   refB,
+  refFirstLetter,
 }: {
   refA: React.RefObject<HTMLHeadingElement | null>;
   refB: React.RefObject<HTMLHeadingElement | null>;
+  /** Ref placed on the very first letter "E" of "Explore" for pixel-accurate bike detection */
+  refFirstLetter: React.RefObject<HTMLSpanElement | null>;
 }) {
   return (
     <div className="relative h-[clamp(90px,13vw,190px)] w-full">
@@ -65,7 +65,8 @@ function MorphHeading({
         data-morph-a
         className="text-display absolute inset-0 text-right text-[clamp(34px,5.4vw,74px)] text-brand-blue uppercase"
       >
-        Explore the
+        {/* This span lets GSAP read the exact screen X of the letter "E" every frame */}
+        <span ref={refFirstLetter}>E</span>xplore the
         <br />
         Destination
       </h2>
@@ -83,22 +84,27 @@ function MorphHeading({
 }
 
 export function HorizontalJourney() {
-  const root = useRef<HTMLDivElement>(null);
-  const track = useRef<HTMLDivElement>(null);
-  const bikeRef = useRef<HTMLDivElement>(null);
+  const root      = useRef<HTMLDivElement>(null);
+  const track     = useRef<HTMLDivElement>(null);
+  const bikeRef   = useRef<HTMLDivElement>(null);
   const wheelFront = useRef<HTMLImageElement>(null);
-  const morphA = useRef<HTMLHeadingElement>(null);
-  const morphB = useRef<HTMLHeadingElement>(null);
+  const morphA    = useRef<HTMLHeadingElement>(null);
+  const morphB    = useRef<HTMLHeadingElement>(null);
+  // Pinned on the letter "E" — gives its live screen rect every animation frame
+  const morphERef = useRef<HTMLSpanElement>(null);
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     let ctx: gsap.Context | undefined;
+    // We hold the ticker callback outside the ctx so we can remove it in cleanup
+    let morphTicker: (() => void) | null = null;
+
     const frame = requestAnimationFrame(() => {
       ctx = gsap.context(() => {
         const panels = gsap.utils.toArray<HTMLElement>("[data-panel]");
-        const total = panels.length;
+        const total  = panels.length;
 
-        // Intro reveal on the hero panel
+        // ── Intro reveal on the hero panel ────────────────────────────────
         const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
         intro
           .from("[data-hero-nav]", { y: -40, opacity: 0, duration: 0.8 })
@@ -120,7 +126,7 @@ export function HorizontalJourney() {
           )
           .from("[data-doodle]", { opacity: 0, duration: 1, stagger: 0.1 }, "-=1.0");
 
-        // Horizontal scrolling of the 3 panels
+        // ── Horizontal scrolling of the 3 panels ──────────────────────────
         const scroll = gsap.timeline({
           scrollTrigger: {
             trigger: root.current,
@@ -152,8 +158,19 @@ export function HorizontalJourney() {
           scroll.fromTo(strip, { x: 0 }, { x: -320, ease: "none", duration: total - 1 }, 0);
         });
 
-        // Text morph: EXPLORE THE DESTINATION -> CHOOSE A NEW EXPERIENCE.
-        const morph = gsap.timeline({ defaults: { ease: "power2.inOut" } });
+        // ── MorphHeading — triggered by bike physically touching "E" ───────
+        //
+        // Strategy: gsap.ticker fires AFTER every GSAP render commit, so
+        // getBoundingClientRect() always reflects the current animated state of
+        // the bike (no scrub-lag mismatch).  We compare the bike's right edge
+        // to the "E" span's left edge and drive a paused morph timeline with the
+        // resulting 0→1 progress value.
+        //
+        // • overlap = 0   → progress 0  (morphA fully visible)
+        // • overlap = coverWidth → progress 1  (morphB fully visible)
+        // Scrolling back reverses the animation automatically.
+
+        const morph = gsap.timeline({ paused: true, defaults: { ease: "power2.inOut" } });
         morph
           .to(morphA.current, {
             opacity: 0,
@@ -169,9 +186,34 @@ export function HorizontalJourney() {
             { opacity: 1, yPercent: 0, scaleY: 1, skewX: 0, filter: "blur(0px)", duration: 0.5 },
             "-=0.28",
           );
-        scroll.add(morph, 0.7);
 
-        // Wheel rotation driven by scroll velocity + a constant idle spin
+        morphTicker = () => {
+          const bikeEl  = bikeRef.current;
+          const eSpan   = morphERef.current;
+          const morphEl = morphA.current;
+          if (!bikeEl || !eSpan || !morphEl) return;
+
+          // All three rects are read after GSAP has already applied transforms
+          const bikeRect  = bikeEl.getBoundingClientRect();
+          const eRect     = eSpan.getBoundingClientRect();   // exact "E" pixel position
+          const morphRect = morphEl.getBoundingClientRect(); // heading's right edge
+
+          // How far the bike's CENTRE has advanced past the "E"'s left pixel.
+          // Using the centre instead of the right edge means the morph only
+          // starts once the middle of the bike is over the "E" — not as soon
+          // as the front tip arrives.
+          const bikeMid    = (bikeRect.left + bikeRect.right) / 2;
+          const overlap    = bikeMid - eRect.left;
+          // Morph completes once the bike centre has swept across the full heading text
+          const coverWidth = Math.max(morphRect.right - eRect.left, 1);
+
+          morph.progress(overlap <= 0 ? 0 : Math.min(overlap / coverWidth, 1));
+        };
+
+        // Register on the global GSAP ticker so it runs every animation frame
+        gsap.ticker.add(morphTicker);
+
+        // ── Wheel rotation driven by scroll velocity ───────────────────────
         const spin = gsap.to(wheelFront.current, {
           rotate: 360,
           duration: 1.1,
@@ -194,7 +236,7 @@ export function HorizontalJourney() {
         });
         spin.play();
 
-        // Panel 3 (Experience statement) content fade reveal attached to scroll timeline
+        // ── Panel 3 content fade reveal ───────────────────────────────────
         scroll.from(
           "[data-panel='3'] [data-reveal]",
           {
@@ -211,6 +253,11 @@ export function HorizontalJourney() {
 
     return () => {
       cancelAnimationFrame(frame);
+      // Must remove ticker before ctx.revert() kills the morph timeline
+      if (morphTicker) {
+        gsap.ticker.remove(morphTicker);
+        morphTicker = null;
+      }
       ctx?.revert();
     };
   }, []);
@@ -229,7 +276,7 @@ export function HorizontalJourney() {
         {/* PANEL 1 — HERO */}
         <div
           data-panel="1"
-          className="relative flex h-full w-screen flex-col items-center px-6 pt-28 md:px-12 md:pt-32"
+          className="relative flex h-full w-screen shrink-0 flex-col items-center px-6 pt-28 md:px-12 md:pt-32"
         >
           <PlaneDoodle
             data-doodle
@@ -241,11 +288,11 @@ export function HorizontalJourney() {
             className="absolute top-[20%] right-[3%] hidden w-[130px] text-foreground/70 md:block"
           />
 
-          <h1 className="text-display text-center text-[clamp(38px,7vw,96px)]">
+          <h1 className="text-display text-center text-[clamp(38px,4vw,96px)] font-krona">
             <span data-hero-line className="block overflow-hidden">
               <span className="block">Let&rsquo;s Create</span>
             </span>
-            <span data-hero-line className="block overflow-hidden">
+            <span data-hero-line className="block overflow-hidden pb-3">
               <span className="block">
                 Memorable <span className="font-light text-muted-foreground">Journey</span>
               </span>
@@ -258,7 +305,7 @@ export function HorizontalJourney() {
 
           <span
             data-hero-badge
-            className="absolute top-[52%] right-[10%] z-30 hidden rounded-full bg-ink px-5 py-2.5 text-[13px] font-medium text-ink-foreground md:block"
+            className="absolute top-[52%] right-[20%] z-30 hidden rounded-full bg-ink px-5 py-2.5 text-[15px] font-medium text-ink-foreground md:block"
           >
             Travel Across India
           </span>
@@ -273,12 +320,14 @@ export function HorizontalJourney() {
         {/* PANEL 2 — DESTINATIONS + EXPLORE */}
         <div
           data-panel="2"
-          className="relative flex h-full w-screen flex-col justify-start px-6 pt-28 md:px-12 md:pt-32"
+          className="relative flex h-full w-screen shrink-0 flex-col justify-start px-6 pt-28 md:px-12 md:pt-32"
         >
-          <DestinationStrip />
-          <div className="mt-auto mb-[22vh] flex justify-end">
+          <div className="w-full">
+            <DestinationStrip />
+          </div>
+          <div className="mt-auto mb-[10vh] flex justify-end">
             <div className="w-[62vw]">
-              <MorphHeading refA={morphA} refB={morphB} />
+              <MorphHeading refA={morphA} refB={morphB} refFirstLetter={morphERef} />
             </div>
           </div>
         </div>
@@ -286,7 +335,7 @@ export function HorizontalJourney() {
         {/* PANEL 3 — EXPERIENCE STATEMENT */}
         <div
           data-panel="3"
-          className="relative flex h-full w-screen flex-col items-center ml-210 justify-start px-6 pt-[18vh] md:px-12"
+          className="relative flex h-full w-screen shrink-0 flex-col items-center justify-start px-6 pt-[18vh] md:px-12"
         >
           <PlaneDoodle
             data-doodle
@@ -294,7 +343,7 @@ export function HorizontalJourney() {
           />
           <h2
             data-reveal
-            className="text-display text-center text-[clamp(30px,5.6vw,78px)] leading-[1.12]"
+            className="text-display text-center text-[clamp(30px,5.6vw,78px)] leading-[1.12] font-krona"
           >
             It&rsquo;s not just a HOLIDAY
             <br />
@@ -303,10 +352,10 @@ export function HorizontalJourney() {
         </div>
       </div>
 
-      {/* THE BIKE — rides above every panel */}
+      {/* THE BIKE — rides above every panel, bigger for dramatic presence */}
       <div
         ref={bikeRef}
-        className="pointer-events-none absolute bottom-[-2vh] left-[24vw] z-20 w-[52vw] max-w-[880px] min-w-[420px] will-change-transform"
+        className="pointer-events-none absolute bottom-[-5vh] left-[14vw] z-20 w-[74vw] max-w-[1080px] min-w-[560px] will-change-transform"
       >
         <div className="relative">
           <img
